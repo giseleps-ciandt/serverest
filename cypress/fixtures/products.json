@@ -1,0 +1,8 @@
+{
+  "productTemplate": {
+    "nome": "Automated Test Product",
+    "preco": 150,
+    "descricao": "Product created via test automation",
+    "quantidade": 10
+  }
+}

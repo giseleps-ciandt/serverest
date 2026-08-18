@@ -1,0 +1,16 @@
+{
+  "invalidLogin": {
+    "email": "invalid.email@serverest.dev",
+    "password": "wrongpassword"
+  },
+  "adminTemplate": {
+    "nome": "Admin Test",
+    "password": "Admin@123",
+    "administrador": "true"
+  },
+  "userTemplate": {
+    "nome": "Test User",
+    "password": "User@123",
+    "administrador": "false"
+  }
+}
