@@ -106,6 +106,38 @@ npm run cy:run:frontend
 npm run cy:run:api
 ```
 
+### Run tests by tag
+
+Tests are tagged for flexible filtering in CI/CD pipelines:
+
+**Type tags:** `@api` or `@frontend`  
+**Feature tags:** `@login`, `@products`, `@users`, `@home`, `@registration`
+
+**OR mode** (run if ANY tag matches) — use `|`:
+
+```bash
+# Run all API tests
+GREP_TAGS="@api" npm run cy:run:tags
+
+# Run all frontend tests
+GREP_TAGS="@frontend" npm run cy:run:tags
+
+# Run tests with @api OR @login
+GREP_TAGS="@api|@login" npm run cy:run:tags
+```
+
+**AND mode** (run if ALL tags match) — use `,`:
+
+```bash
+# Run ONLY API login tests (must have both @api AND @login)
+GREP_TAGS="@api,@login" npm run cy:run:tags
+
+# Run ONLY frontend products tests
+GREP_TAGS="@frontend,@products" npm run cy:run:tags
+```
+
+See [TAGS.md](TAGS.md) for complete tag reference and CI/CD examples.
+
 ### Open interactive mode
 
 ```bash

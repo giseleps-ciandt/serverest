@@ -1,6 +1,6 @@
 const AuthService = require('../../services/AuthService')
 
-describe('API Login: Authentication and token generation (POST /login)', () => {
+describe('@api @login API Login: Authentication and token generation (POST /login)', () => {
   let testUser
   let fixtures
 

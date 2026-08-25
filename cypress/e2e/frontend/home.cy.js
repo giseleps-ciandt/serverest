@@ -1,7 +1,7 @@
 const HomePage = require('../../pages/HomePage')
 const LoginPage = require('../../pages/LoginPage')
 
-describe('Home: Authenticated user actions', () => {
+describe('@frontend @home Home: Authenticated user actions', () => {
   let adminUser
 
   before(() => {

@@ -4,9 +4,10 @@
   "description": "Automated E2E and API tests for ServeRest using Cypress",
   "scripts": {
     "test": "cypress run",
-    "cy:run": "cypress run",
+    "cy:run": "node scripts/grep-tags.js",
     "cy:run:frontend": "cypress run --spec 'cypress/e2e/frontend/**/*.cy.js'",
     "cy:run:api": "cypress run --spec 'cypress/e2e/api/**/*.cy.js'",
+    "cy:run:tags": "node scripts/grep-tags.js",
     "cy:open": "cypress open"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 const UserService = require('../../services/UserService')
 
-describe('API Users: User management (/usuarios)', () => {
+describe('@api @users API Users: User management (/usuarios)', () => {
   let existingUser
   let fixtures
 

@@ -1,7 +1,7 @@
 const RegisterPage = require('../../pages/RegisterPage')
 const LoginPage = require('../../pages/LoginPage')
 
-describe('Registration: New User Registration', () => {
+describe('@frontend @registration Registration: New User Registration', () => {
   let existingUser
   let fixtures
 

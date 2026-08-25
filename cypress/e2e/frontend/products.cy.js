@@ -1,7 +1,7 @@
 const ProductsPage = require('../../pages/ProductsPage')
 const HomePage = require('../../pages/HomePage')
 
-describe('Products: Catalog View', () => {
+describe('@frontend @products Products: Catalog View', () => {
   let adminUser
 
   before(() => {
@@ -38,7 +38,7 @@ describe('Products: Catalog View', () => {
   })
 })
 
-describe('Products: Role-based access control', () => {
+describe('@frontend @products Products: Role-based access control', () => {
   let regularUser
 
   before(() => {

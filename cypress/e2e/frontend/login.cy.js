@@ -1,7 +1,7 @@
 const LoginPage = require('../../pages/LoginPage')
 const HomePage = require('../../pages/HomePage')
 
-describe('Login: User Authentication', () => {
+describe('@frontend @login Login: User Authentication', () => {
   let testUser
   let fixtures
 

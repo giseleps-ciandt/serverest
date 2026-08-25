@@ -1,6 +1,6 @@
 const ProductService = require('../../services/ProductService')
 
-describe('API Products: Product management with authentication (/produtos)', () => {
+describe('@api @products API Products: Product management with authentication (/produtos)', () => {
   let adminUser
   let authToken
   let createdProductId
