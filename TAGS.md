@@ -82,6 +82,13 @@ npm run cy:run:tags  # No filter - run everything
 
 ## Test Counts
 
-- **API Tests:** 11 test cases
+- **API Tests:** 10 test cases
+  - Login: 3
+  - Products: 3
+  - Users: 4
 - **Frontend Tests:** 10 test cases
-- **Total:** 21 test cases
+  - Home: 1
+  - Login: 3
+  - Products: 3
+  - Registration: 3
+- **Total:** 20 test cases
