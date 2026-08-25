@@ -12,13 +12,14 @@ on:
         required: false
         default: ''
 
-env:
-  GREP_TAGS: ${{ github.event.inputs.grep_tags }}
-
 jobs:
   cypress-api:
     name: API Tests
     runs-on: ubuntu-latest
+    if: |
+      github.event_name != 'workflow_dispatch' ||
+      github.event.inputs.grep_tags == '' ||
+      contains(github.event.inputs.grep_tags, '@api')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,7 +36,7 @@ jobs:
       - name: Run API Tests
         run: npm run cy:run:tags
         env:
-          GREP_TAGS: '@api'
+          GREP_TAGS: ${{ github.event.inputs.grep_tags || '@api' }}
 
       - name: Upload API Test Report
         uses: actions/upload-artifact@v4
@@ -48,6 +49,10 @@ jobs:
   cypress-frontend:
     name: Frontend E2E Tests
     runs-on: ubuntu-latest
+    if: |
+      github.event_name != 'workflow_dispatch' ||
+      github.event.inputs.grep_tags == '' ||
+      contains(github.event.inputs.grep_tags, '@frontend')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -64,7 +69,7 @@ jobs:
       - name: Run Frontend E2E Tests
         run: npm run cy:run:tags
         env:
-          GREP_TAGS: '@frontend'
+          GREP_TAGS: ${{ github.event.inputs.grep_tags || '@frontend' }}
 
       - name: Upload Frontend Test Report
         uses: actions/upload-artifact@v4
