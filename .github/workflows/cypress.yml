@@ -6,6 +6,14 @@ on:
   pull_request:
     branches: [main, master]
   workflow_dispatch:
+    inputs:
+      grep_tags:
+        description: 'Filter tests by tags (e.g., @api, @frontend, @login). Use | for OR, , for AND'
+        required: false
+        default: ''
+
+env:
+  GREP_TAGS: ${{ github.event.inputs.grep_tags }}
 
 jobs:
   cypress-api:
@@ -21,10 +29,13 @@ jobs:
           node-version: '18'
           cache: 'npm'
 
+      - name: Install dependencies
+        run: npm ci
+
       - name: Run API Tests
-        uses: cypress-io/github-action@v6
-        with:
-          spec: cypress/e2e/api/**/*.cy.js
+        run: npm run cy:run:tags
+        env:
+          GREP_TAGS: '@api'
 
       - name: Upload API Test Report
         uses: actions/upload-artifact@v4
@@ -47,11 +58,13 @@ jobs:
           node-version: '18'
           cache: 'npm'
 
+      - name: Install dependencies
+        run: npm ci
+
       - name: Run Frontend E2E Tests
-        uses: cypress-io/github-action@v6
-        with:
-          browser: chrome
-          spec: cypress/e2e/frontend/**/*.cy.js
+        run: npm run cy:run:tags
+        env:
+          GREP_TAGS: '@frontend'
 
       - name: Upload Frontend Test Report
         uses: actions/upload-artifact@v4
