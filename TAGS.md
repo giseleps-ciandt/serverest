@@ -60,25 +60,25 @@ GREP_TAGS="@api,@login" npm run cy:run:tags
 GREP_TAGS="@frontend,@products" npm run cy:run:tags
 ```
 
-## In CI/CD Pipelines
+## CI/CD Pipeline Behavior
 
-**Feature Branch (Quick Smoke Tests):**
+GitHub Actions workflow automatically filters jobs based on tags:
 
-```bash
-GREP_TAGS="@api" npm run cy:run:tags  # Only API tests - faster
-```
+| Trigger | API Job | Frontend Job |
+|---------|---------|--------------|
+| Push to main/PR | ✅ Runs | ✅ Runs |
+| Manual: `@api` | ✅ Runs | ❌ Skipped |
+| Manual: `@frontend` | ❌ Skipped | ✅ Runs |
+| Manual: `@login` | ✅ Runs | ✅ Runs |
+| Manual: `@api,@login` | ✅ Runs | ✅ Runs |
+| Manual: `@api\|@frontend` | ✅ Runs | ✅ Runs |
+| Manual: empty | ✅ Runs | ✅ Runs |
 
-**Main Branch (Comprehensive):**
-
-```bash
-GREP_TAGS="@api|@frontend" npm run cy:run:tags  # All tests
-```
-
-**Release (Full Suite):**
-
-```bash
-npm run cy:run:tags  # No filter - run everything
-```
+**Workflow Rules:**
+- Push/PR → Both jobs always run
+- `workflow_dispatch` with `@api` → Only API job
+- `workflow_dispatch` with `@frontend` → Only Frontend job
+- `workflow_dispatch` with anything else (feature tags, combinations) → Both jobs run
 
 ## Test Counts
 

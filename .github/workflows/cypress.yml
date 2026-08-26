@@ -16,10 +16,7 @@ jobs:
   cypress-api:
     name: API Tests
     runs-on: ubuntu-latest
-    if: |
-      github.event_name != 'workflow_dispatch' ||
-      github.event.inputs.grep_tags == '' ||
-      !(contains(github.event.inputs.grep_tags, '@frontend') && !contains(github.event.inputs.grep_tags, '@api'))
+    if: github.event_name != 'workflow_dispatch' || github.event.inputs.grep_tags != '@frontend'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -49,10 +46,7 @@ jobs:
   cypress-frontend:
     name: Frontend E2E Tests
     runs-on: ubuntu-latest
-    if: |
-      github.event_name != 'workflow_dispatch' ||
-      github.event.inputs.grep_tags == '' ||
-      !(contains(github.event.inputs.grep_tags, '@api') && !contains(github.event.inputs.grep_tags, '@frontend'))
+    if: github.event_name != 'workflow_dispatch' || github.event.inputs.grep_tags != '@api'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
