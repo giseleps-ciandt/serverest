@@ -19,7 +19,7 @@ jobs:
     if: |
       github.event_name != 'workflow_dispatch' ||
       github.event.inputs.grep_tags == '' ||
-      contains(github.event.inputs.grep_tags, '@api')
+      !(contains(github.event.inputs.grep_tags, '@frontend') && !contains(github.event.inputs.grep_tags, '@api'))
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -52,7 +52,7 @@ jobs:
     if: |
       github.event_name != 'workflow_dispatch' ||
       github.event.inputs.grep_tags == '' ||
-      contains(github.event.inputs.grep_tags, '@frontend')
+      !(contains(github.event.inputs.grep_tags, '@api') && !contains(github.event.inputs.grep_tags, '@frontend'))
     steps:
       - name: Checkout
         uses: actions/checkout@v4
