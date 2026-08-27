@@ -30,10 +30,24 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Determine API Test Tags
+        id: api_tags
+        run: |
+          TAGS="${{ github.event.inputs.grep_tags }}"
+          if [[ -z "$TAGS" ]]; then
+            echo "grep_tags=@api" >> $GITHUB_OUTPUT
+          elif [[ "$TAGS" != *"@api"* && "$TAGS" != *"@frontend"* ]]; then
+            echo "grep_tags=@api,$TAGS" >> $GITHUB_OUTPUT
+          elif [[ "$TAGS" == *"@frontend"* ]]; then
+            echo "grep_tags=${TAGS//@frontend/@api}" >> $GITHUB_OUTPUT
+          else
+            echo "grep_tags=$TAGS" >> $GITHUB_OUTPUT
+          fi
+
       - name: Run API Tests
         run: npm run cy:run:tags
         env:
-          GREP_TAGS: ${{ github.event.inputs.grep_tags == '' && '@api' || (!contains(github.event.inputs.grep_tags, '@api') && !contains(github.event.inputs.grep_tags, '@frontend')) && format('@api,{0}', github.event.inputs.grep_tags) || contains(github.event.inputs.grep_tags, '@frontend') && replace(github.event.inputs.grep_tags, '@frontend', '@api') || github.event.inputs.grep_tags }}
+          GREP_TAGS: ${{ steps.api_tags.outputs.grep_tags }}
 
       - name: Upload API Test Report
         uses: actions/upload-artifact@v4
@@ -60,10 +74,24 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Determine Frontend Test Tags
+        id: frontend_tags
+        run: |
+          TAGS="${{ github.event.inputs.grep_tags }}"
+          if [[ -z "$TAGS" ]]; then
+            echo "grep_tags=@frontend" >> $GITHUB_OUTPUT
+          elif [[ "$TAGS" != *"@api"* && "$TAGS" != *"@frontend"* ]]; then
+            echo "grep_tags=@frontend,$TAGS" >> $GITHUB_OUTPUT
+          elif [[ "$TAGS" == *"@api"* ]]; then
+            echo "grep_tags=${TAGS//@api/@frontend}" >> $GITHUB_OUTPUT
+          else
+            echo "grep_tags=$TAGS" >> $GITHUB_OUTPUT
+          fi
+
       - name: Run Frontend E2E Tests
         run: npm run cy:run:tags
         env:
-          GREP_TAGS: ${{ github.event.inputs.grep_tags == '' && '@frontend' || (!contains(github.event.inputs.grep_tags, '@api') && !contains(github.event.inputs.grep_tags, '@frontend')) && format('@frontend,{0}', github.event.inputs.grep_tags) || contains(github.event.inputs.grep_tags, '@api') && replace(github.event.inputs.grep_tags, '@api', '@frontend') || github.event.inputs.grep_tags }}
+          GREP_TAGS: ${{ steps.frontend_tags.outputs.grep_tags }}
 
       - name: Upload Frontend Test Report
         uses: actions/upload-artifact@v4
