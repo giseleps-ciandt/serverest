@@ -58,9 +58,13 @@ jobs:
           retention-days: 30
 
   cypress-frontend:
-    name: Frontend E2E Tests
+    name: Frontend E2E Tests (${{ matrix.browser }})
     runs-on: ubuntu-latest
     if: github.event_name != 'workflow_dispatch' || !(contains(github.event.inputs.grep_tags, '@api') && !contains(github.event.inputs.grep_tags, '|'))
+    strategy:
+      matrix:
+        browser: [chrome, firefox]
+      fail-fast: false
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -89,7 +93,7 @@ jobs:
           fi
 
       - name: Run Frontend E2E Tests
-        run: npm run cy:run:tags
+        run: npm run cy:run:tags -- --browser ${{ matrix.browser }}
         env:
           GREP_TAGS: ${{ steps.frontend_tags.outputs.grep_tags }}
 
@@ -97,6 +101,6 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: frontend-test-report
+          name: frontend-test-report-${{ matrix.browser }}
           path: cypress/reports/
           retention-days: 30
