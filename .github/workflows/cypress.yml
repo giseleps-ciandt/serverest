@@ -33,7 +33,7 @@ jobs:
       - name: Run API Tests
         run: npm run cy:run:tags
         env:
-          GREP_TAGS: ${{ github.event.inputs.grep_tags || '@api' }}
+          GREP_TAGS: ${{ (github.event.inputs.grep_tags && !contains(github.event.inputs.grep_tags, '@api') && !contains(github.event.inputs.grep_tags, '@frontend')) && format('@api,{0}', github.event.inputs.grep_tags) || github.event.inputs.grep_tags || '@api' }}
 
       - name: Upload API Test Report
         uses: actions/upload-artifact@v4
@@ -63,7 +63,7 @@ jobs:
       - name: Run Frontend E2E Tests
         run: npm run cy:run:tags
         env:
-          GREP_TAGS: ${{ github.event.inputs.grep_tags || '@frontend' }}
+          GREP_TAGS: ${{ (github.event.inputs.grep_tags && !contains(github.event.inputs.grep_tags, '@api') && !contains(github.event.inputs.grep_tags, '@frontend')) && format('@frontend,{0}', github.event.inputs.grep_tags) || github.event.inputs.grep_tags || '@frontend' }}
 
       - name: Upload Frontend Test Report
         uses: actions/upload-artifact@v4
