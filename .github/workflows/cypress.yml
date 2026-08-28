@@ -80,7 +80,9 @@ jobs:
 
       - name: Install Firefox
         if: matrix.browser == 'firefox'
-        run: sudo apt-get update && sudo apt-get install -y firefox
+        uses: browser-actions/setup-firefox@latest
+        with:
+          firefox-version: latest
 
       - name: Determine Frontend Test Tags
         id: frontend_tags
